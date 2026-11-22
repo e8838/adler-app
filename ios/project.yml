@@ -1,0 +1,23 @@
+name: AdlerApp
+options:
+  bundleIdPrefix: com.adleru
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  AdlerApp:
+    type: application
+    platform: iOS
+    sources: [AdlerApp]
+    info:
+      path: AdlerApp/Info.plist
+      properties:
+        CFBundleDisplayName: Adler App
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIUserInterfaceStyle: Dark
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.adleru.adlerapp
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.0"
