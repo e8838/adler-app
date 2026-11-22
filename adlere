@@ -1,0 +1,31 @@
+name: Build IPA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar XcodeGen
+        run: brew install xcodegen
+      - name: Generar proyecto Xcode
+        working-directory: ios
+        run: xcodegen generate
+      - name: Compilar (sin firmar)
+        working-directory: ios
+        run: |
+          xcodebuild -project AdlerApp.xcodeproj -scheme AdlerApp \
+            -configuration Release -sdk iphoneos -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+      - name: Crear IPA
+        working-directory: ios
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/AdlerApp.app Payload/
+          zip -qr AdlerApp.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AdlerApp-ipa
+          path: ios/AdlerApp.ipa
